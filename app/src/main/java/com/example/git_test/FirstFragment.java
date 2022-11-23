@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.git_test.databinding.FragmentFirstBinding;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
-
+    private DatabaseReference rootDatabaseref;
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -29,11 +31,14 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+        rootDatabaseref = FirebaseDatabase.getInstance().getReference();
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                String data = binding.editTextTextPersonName.getText().toString();
+                System.out.println(data);
+                rootDatabaseref.setValue(data);
             }
         });
     }
